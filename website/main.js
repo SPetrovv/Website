@@ -46,7 +46,61 @@ function addStar(){
 
 }
 
-Array(200).fill().forEach(addStar)
+Array(200).fill().forEach(addStar);
+
+const spaceTexture = new THREE.TextureLoader().load('space.jpg');
+scene.background = spaceTexture;
+
+//Avatar
+
+const avatarTexture = new THREE.TextureLoader().load('avatar.png');
+
+const avatar = new THREE.Mesh(
+  new THREE.BoxGeometry(3,3,3),
+  new THREE.MeshBasicMaterial( { map: avatarTexture } ),
+  
+);
+
+scene.add(avatar);
+
+const sunTexture = new THREE.TextureLoader().load('sun.jpg');
+
+
+const sun = new THREE.Mesh(
+  new THREE .SphereGeometry(3, 32, 32),
+  new THREE.MeshStandardMaterial( {
+    map: sunTexture
+  })
+
+);
+
+scene.add(sun);
+
+sun.position.z = 30;
+sun.position.setX(-10);
+
+
+
+function moveCamera() {
+  const t = document.body.getBoundingClientRect().top;
+
+  sun.rotation.x += 0.05;
+  sun.rotation.y += 0.075;
+  sun.rotation.z += 0.05;
+
+  avatar.rotation.y += 0.01;
+  avatar.rotation.z += 0.01;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.position.y = t * -0.0002;
+
+
+}
+
+document.body.onscroll = moveCamera
+
+
 
 function animate() {
   requestAnimationFrame( animate );
